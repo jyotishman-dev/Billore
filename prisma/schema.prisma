@@ -1,0 +1,167 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Profile {
+  id              String   @id @default("default")
+  name            String
+  gstin           String?
+  pan             String?
+  email           String?
+  phone           String?
+  address         String?
+  state           String?
+  stateCode       String?
+  bankName        String?
+  accountNo       String?
+  ifsc            String?
+  branch          String?
+  upiId           String?
+  logo            String?
+  signature       String?
+  composition     Boolean  @default(false)
+  rawData         String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Client {
+  id              String   @id
+  name            String
+  gstin           String?
+  pan             String?
+  email           String?
+  phone           String?
+  billingAddress  String?
+  shippingAddress String?
+  state           String?
+  stateCode       String?
+  creditLimit     Float?
+  openingBalance  Float?
+  notes           String?
+  rawData         String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Product {
+  id              String   @id
+  name            String
+  hsn             String?
+  unit            String?
+  price           Float    @default(0)
+  purchasePrice   Float?
+  taxRate         Float    @default(0)
+  stock           Float?
+  lowStockAlert   Float?
+  cess            Float?
+  cessType        String?
+  category        String?
+  rawData         String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Invoice {
+  id              String    @id
+  invoiceNumber   String
+  type            String    @default("tax-invoice")
+  invoiceDate     DateTime
+  dueDate         DateTime?
+  clientId        String?
+  clientName      String?
+  clientGstin     String?
+  placeOfSupply   String?
+  subtotal        Float     @default(0)
+  taxTotal        Float     @default(0)
+  total           Float     @default(0)
+  balanceDue      Float     @default(0)
+  status          String    @default("unpaid")
+  payments        String?
+  items           String
+  metadata        String?
+  isDeleted       Boolean   @default(false)
+  deletedAt       DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model Expense {
+  id              String   @id
+  date            DateTime
+  category        String
+  description     String?
+  amount          Float
+  paymentMode     String?
+  vendor          String?
+  gstin           String?
+  itcEligible     Boolean  @default(false)
+  rawData         String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model RecurringInvoice {
+  id              String    @id
+  clientName      String
+  frequency       String
+  startDate       DateTime
+  nextDate        DateTime?
+  status          String    @default("active")
+  templateData    String
+  lastGenerated   DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model TermsTemplate {
+  id              String   @id
+  name            String
+  content         String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model PurchaseBill {
+  id              String   @id
+  billNumber      String?
+  date            DateTime
+  vendorName      String
+  vendorGstin     String?
+  total           Float
+  items           String?
+  rawData         String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model ReceiptVoucher {
+  id              String   @id
+  voucherNumber   String?
+  date            DateTime
+  clientName      String
+  amount          Float
+  paymentMode     String?
+  referenceNo     String?
+  notes           String?
+  rawData         String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model LocalPref {
+  key             String   @id
+  value           String
+  updatedAt       DateTime @updatedAt
+}
+
+model MetaCounter {
+  key             String   @id
+  value           Int      @default(0)
+  updatedAt       DateTime @updatedAt
+}

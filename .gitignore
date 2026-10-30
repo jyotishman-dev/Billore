@@ -43,3 +43,8 @@ public/tesseract/
 
 # Built documentation site (regenerate with: node docs-site/build.mjs)
 docs-site/out/
+
+# Next.js build output & cache
+.next/
+*.tsbuildinfo
+.env*.local
